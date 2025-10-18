@@ -1,6 +1,6 @@
 from datetime import date
 from ics import Calendar, Event
-from typing import NamedTuple
+from typing import NamedTuple, Tuple
 from os import environ as env
 from dotenv import load_dotenv
 from csv import DictReader
@@ -44,9 +44,31 @@ def _get_csv_from_sheets(spreadsheet_link) -> BytesIO:
     return BytesIO(r.read())
 
 
+def _jaccard_similarity(a: str, b: str) -> float:
+    s_a = set(a.lower())
+    s_b = set(b.lower())
+    return len(s_a.intersection(s_b)) / len(s_a.union(s_b))
+
+
+def _headers_from_reader_fieldnames(reader: DictReader) -> Tuple[str, str]:
+    fieldnames = list(reader.fieldnames)  # noqa
+
+    def _most_similar_header(prompt):
+        return sorted(
+            fieldnames, key=lambda x: _jaccard_similarity(prompt, x), reverse=True
+        )[0]
+
+    return _most_similar_header("your name"), _most_similar_header("your birthday")
+
+
 def _format_csv(csv_bytes: BytesIO):
     with TextIOWrapper(csv_bytes) as f:
         reader = DictReader(f.readlines())
+        if not reader.fieldnames:
+            raise ValueError("Empty CSV. There is no data to parse.")
+            
+        name_header, birthday_header = _headers_from_reader_fieldnames(reader)
+        print(name_header, birthday_header)
         for line in reader:
             print(line)
 
@@ -55,8 +77,8 @@ def main():
     form_link = env.get("COMPLENDAR_SPREADSHEET_URL") or input(
         "Please enter the link to the Google Forms' Spreadsheet: "
     )
-    csv_data = _get_csv_from_sheets(form_link)
-    _format_csv(csv_data)
+    csv_bytes = _get_csv_from_sheets(form_link)
+    _format_csv(csv_bytes)
 
 
 if __name__ == "__main__":
