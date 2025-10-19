@@ -75,7 +75,7 @@ uv run python -m complendar "https://docs.google.com/spreadsheets/d/12345EXAMPLE
 
 ## Importing the `.ics` File into Your Calendar
 
-The generated `.ics` file contains **recurring yearly events** with reminders set for the day before and the day of each birthday. You need to **import** this file into your chosen calendar application.
+The generated `.ics` file contains **recurring yearly events** with reminders set for the day before and the day of each birthday. You need to **import** this file into your chosen calendar application. _Usually, dragging and dropping the file into your calendar app is all it takes_, but just in case, here are some actual guides to import the file.
 
 | Calendar Application | How to Import (Official Guide) |
 | :--- | :--- |
