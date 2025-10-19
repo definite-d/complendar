@@ -3,9 +3,9 @@ name = "complendar"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.14"
 dependencies = [
     "dotenv>=0.9.9",
     "httpx>=0.28.1",
-    "ics>=0.7.2",
+    "ical>=11.0.0",
 ]

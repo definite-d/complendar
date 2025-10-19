@@ -1,0 +1,304 @@
+/* A simple, modern reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /*
+          NEW: Monochrome "Light" Palette
+          High-contrast shades of gray.
+        */
+  /* Simplified background for goo effect (lighter base) */
+  --bg-color: #f0f3f5;
+  --fg: #111827;
+  --accent-bg: #1f2937; /* Dark button */
+  --accent-fg: #f9fafb; /* Light text on button */
+  --accent-hover: #000;
+  --card-bg: rgba(249, 250, 251, 0.7); /* More opaque, "frosted" glass */
+  --border: rgba(0, 0, 0, 0.2);
+  --input-bg: rgba(255, 255, 255, 0.8);
+  --log-bg: rgba(229, 231, 235, 0.7);
+  --log-fg: #111827;
+  --blur: 10px; /* Tighter blur */
+  --brightness: 1.05; /* "Refraction" lift */
+
+  /* NEW: Goo-like gradient colors for light mode */
+  --goo-color-1: rgba(210, 218, 226, 0.8); /* Soft blue-gray */
+  --goo-color-2: rgba(225, 230, 235, 0.8); /* Lighter gray-blue */
+}
+
+[data-theme="dark"] {
+  /*
+          NEW: Monochrome "Dark" Palette
+        */
+  /* Simplified background for goo effect (darker base) */
+  --bg-color: #0d121c;
+  --fg: #e5e7eb;
+  --accent-bg: #e5e7eb; /* Light button */
+  --accent-fg: #111827; /* Dark text on button */
+  --accent-hover: #fff;
+  --card-bg: rgba(30, 41, 59, 0.7); /* Dark "frosted" glass */
+  --border: rgba(255, 255, 255, 0.2);
+  --input-bg: rgba(30, 41, 59, 0.8);
+  --log-bg: rgba(30, 41, 59, 0.5);
+  --log-fg: #e5e7eb;
+  --blur: 14px;
+  --brightness: 1.1; /* More pronounced "lift" in dark mode */
+
+  /* NEW: Goo-like gradient colors for dark mode */
+  --goo-color-1: rgba(30, 41, 59, 0.8); /* Dark slate blue */
+  --goo-color-2: rgba(17, 24, 40, 0.8); /* Darker blue-gray */
+}
+
+html {
+  height: 100%;
+  /* NEW: Modern Google Font */
+  font-family: "Poppins", "Inter", system-ui, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100%;
+  color: var(--fg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow: hidden;
+  transition: background-color 0.6s ease, color 0.6s ease;
+
+  /* Goo-like Background Implementation */
+  background-color: var(--bg-color); /* Use the new base color */
+  /* Create two large, soft radial gradients */
+  background-image: radial-gradient(
+      circle at 10% 20%,
+      var(--goo-color-1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(circle at 90% 80%, var(--goo-color-2) 0%, transparent 50%);
+
+  background-size: 150% 150%; /* Make them huge to simulate soft blur */
+  background-position: 0 0;
+
+  /* Animate the background position */
+  animation: gooMovement 30s infinite alternate ease-in-out;
+}
+
+/* NEW: Goo Movement Keyframes */
+@keyframes gooMovement {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
+}
+
+h1 {
+  font-size: 2.2rem; /* Slightly larger for Poppins */
+  font-weight: 700;
+  margin-bottom: 1.25rem; /* Tighter padding */
+  color: var(--fg);
+  text-align: center;
+  letter-spacing: -0.5px;
+  animation: fadeInDown 0.8s ease forwards;
+}
+
+/* NEW: Wiggle effect on hover for the app name */
+#app-name {
+  display: inline-block; /* Essential for transform to work */
+  cursor: pointer; /* Indicate interactivity */
+  transition: transform 0.1s ease-out; /* Smooth initial response */
+}
+
+#app-name:hover {
+  animation: wiggle 0.5s ease-in-out infinite; /* Apply wiggle on hover */
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
+}
+
+.card {
+  background: var(--card-bg);
+  /* The soft goo illusion is achieved by the high blur on the backdrop */
+  backdrop-filter: blur(var(--blur)) brightness(var(--brightness));
+  border: 1px solid var(--border);
+  border-radius: 16px; /* Tighter curve */
+  padding: 1.5rem; /* Tighter padding */
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), inset 0 1px 1px var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Tighter gap */
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 0.8rem 1rem; /* Tighter padding */
+  border: 1px solid var(--border);
+  border-radius: 8px; /* Tighter curve */
+  background: var(--input-bg);
+  color: var(--fg);
+  font-size: 1rem;
+  outline: none;
+  backdrop-filter: blur(3px); /* Subtle blur for inputs */
+  transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+}
+input[type="text"]:focus {
+  border-color: var(--fg);
+  box-shadow: 0 0 0 3px var(--border);
+}
+input[type="text"]::placeholder {
+  color: var(--fg);
+  opacity: 0.5;
+}
+
+button {
+  background: var(--accent-bg);
+  color: var(--accent-fg);
+  border: none;
+  border-radius: 8px; /* Tighter curve */
+  padding: 0.8rem; /* Tighter padding */
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  width: 100%;
+}
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  background: var(--accent-hover);
+}
+button:active {
+  transform: translateY(0);
+}
+
+/* Update the existing #logs block in style.css */
+#logs {
+  background: var(--log-bg);
+  color: var(--log-fg);
+  font-family: monospace;
+  font-size: 0.9rem;
+  padding: 0.8rem;
+  border-radius: 8px; /* Tighter curve */
+  max-height: 250px; /* Increased slightly to allow more growth */
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(3px);
+  /* NEW: Add transition for smooth height and padding changes */
+  transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+  min-height: 0; /* Ensure a defined start point if it's empty */
+  height: auto; /* Allow natural height, controlled by max-height */
+}
+.log-entry {
+  margin-bottom: 0.4rem;
+  white-space: pre-wrap;
+  line-height: 1.4;
+}
+
+/* NEW: Monochrome log status colors 
+      */
+.log-info {
+  color: #374151; /* Muted gray */
+}
+.log-success {
+  color: #111827; /* Base dark */
+  font-weight: 500;
+}
+.log-warn {
+  color: #4b5563; /* Lighter gray */
+  font-style: italic;
+}
+.log-error {
+  color: #000; /* Pure black */
+  font-weight: 700;
+}
+
+[data-theme="dark"] .log-info {
+  color: #9ca3af; /* Muted light gray */
+}
+[data-theme="dark"] .log-success {
+  color: #fff; /* Pure white */
+  font-weight: 500;
+}
+[data-theme="dark"] .log-warn {
+  color: #9ca3af; /* Muted light gray */
+  font-style: italic;
+}
+[data-theme="dark"] .log-error {
+  color: #fff; /* Pure white */
+  font-weight: 700;
+}
+
+#download-link {
+  display: none;
+  background: var(--accent-bg);
+  color: var(--accent-fg);
+  text-decoration: none;
+  padding: 0.8rem; /* Tighter padding */
+  border-radius: 8px; /* Tighter curve */
+  text-align: center;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.2s;
+}
+#download-link:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.theme-toggle {
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.6;
+  cursor: pointer;
+  margin-top: 0.25rem; /* Tighter margin */
+  transition: opacity 0.2s;
+}
+.theme-toggle:hover {
+  opacity: 1;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
