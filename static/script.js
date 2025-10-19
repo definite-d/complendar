@@ -101,3 +101,4 @@ document.addEventListener("DOMContentLoaded", () => {
   setInitialTheme();
   log("Ready. Paste a link and click convert.", "info");
 });
+  
