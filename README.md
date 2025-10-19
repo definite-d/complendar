@@ -1,8 +1,8 @@
 # 🎉 Complendar: Convert Google Sheet Forms to Calendar Events
 
-Complendar is a simple, self-hosted Python utility that takes a public Google Sheet (typically generated from a Google Form) and converts the list of names and birthdays into a standard **$\text{.ics}$ calendar file**. This file can then be imported into any calendar application (Google, Outlook, Apple, etc.) to create **yearly recurring birthday events**.
+Complendar is a simple, self-hosted Python utility that takes a public Google Sheet (typically generated from a Google Form) and converts the list of names and birthdays into a standard **`.ics` calendar file**. This file can then be imported into any calendar application (Google, Outlook, Apple, etc.) to create **yearly recurring birthday events**.
 
-It supports both a simple **Command-Line Interface ($\text{CLI}$)** and a **Web Interface**.
+It supports both a simple **Command-Line Interface (CLI)** and a **Web Interface**.
 
 ## Quick Start (Web Interface)
 
@@ -73,9 +73,9 @@ uv run python -m complendar "https://docs.google.com/spreadsheets/d/12345EXAMPLE
 
 -----
 
-## Importing the $\text{.ics}$ File into Your Calendar
+## Importing the `.ics` File into Your Calendar
 
-The generated **$\text{.ics}$** file contains **recurring yearly events** with reminders set for the day before and the day of each birthday. You need to **import** this file into your chosen calendar application.
+The generated `.ics` file contains **recurring yearly events** with reminders set for the day before and the day of each birthday. You need to **import** this file into your chosen calendar application.
 
 | Calendar Application | How to Import (Official Guide) |
 | :--- | :--- |
